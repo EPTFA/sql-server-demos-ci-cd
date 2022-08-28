@@ -1,0 +1,67 @@
+# This workflow installs tSQLt and runs the test units
+
+name: tSQLt installer and unit testing runner
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  windows-auth-tsqlt:
+    name: Installting tSQLt with SQL Auth
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    
+    services:
+      sqlserver:
+        image: chriseaton/adventureworks:latest
+        ports:
+          - 1433:1433
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: 3uuiCaKxfbForrK
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install tSQLt with SQL auth
+        uses: lowlydba/tsqlt-installer@v1
+        with:
+          sql-instance: localhost
+          database: tempdb
+          version: latest
+          user: sa
+          password: 3uuiCaKxfbForrK
+        
+      #- name: Get the containers list unformatted
+      #  run: docker ps
+  
+      #- name: Get the containers list formatted
+      #  run: docker ps --all --filter status=running --no-trunc --format "{{.ID}}"
+                
+      #- name: Set the container ID
+      #  run: echo '::set-output name=CONTAINER_ID::$(docker ps --all --filter status=running --no-trunc --format "{{.ID}}")'
+      #  id: ContainerID
+        
+      #- name: Get container ID
+      #  run: echo "The container ID is ${{ steps.ContainerID.outputs.CONTAINER_ID }}"
+        
+      - name: Set environment variable ENV_CONTAINER_ID
+        run: echo "ENV_CONTAINER_ID=$(docker ps --all --filter status=running --no-trunc --format "{{.ID}}")" >> $GITHUB_ENV
+
+      - name: Test environment variable ENV_CONTAINER_ID
+        run: echo $ENV_CONTAINER_ID
+        
+      #- name: Print environment variables
+      #  run: env        
+
+      - name: Get the database list
+        run: docker exec -i $ENV_CONTAINER_ID /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "3uuiCaKxfbForrK" -Q "SELECT Name FROM sys.databases"
+        
