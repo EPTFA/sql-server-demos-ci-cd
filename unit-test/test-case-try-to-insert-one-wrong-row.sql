@@ -9,6 +9,8 @@
 USE [AdventureWorks2017];
 GO
 
+SET QUOTED_IDENTIFIER ON;
+GO
 
 CREATE OR ALTER PROCEDURE UnitTestTRProductSafetyStockLevel.[test try to insert one wrong row]
 AS
