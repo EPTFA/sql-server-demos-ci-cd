@@ -9,6 +9,8 @@
 USE [AdventureWorks2017];
 GO
 
+SET QUOTED_IDENTIFIER ON;
+GO
 
 CREATE OR ALTER PROCEDURE UnitTestTRProductSafetyStockLevel.[test try to insert multiple rows]
 AS
@@ -78,7 +80,6 @@ BEGIN
       @Message0 = 'Production.usp_Raiserror_SafetyStockLevel_SpyProcedureLog is empty! usp_Raiserror_SafetyStockLevel has not been called!';
 END;
 GO
-
 
 EXEC tSQLt.Run 'UnitTestTRProductSafetyStockLevel.[test try to insert multiple rows]';
 GO

@@ -65,6 +65,5 @@ BEGIN
 END;
 GO
 
-
 EXEC tSQLt.Run 'UnitTestTRProductSafetyStockLevel.[test try to insert one wrong row]';
 GO
