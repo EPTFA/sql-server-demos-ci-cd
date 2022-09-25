@@ -6,9 +6,6 @@
 -- Notes:      --                                                       -
 -------------------------------------------------------------------------
 
-USE [AdventureWorks2017];
-GO
-
 SET QUOTED_IDENTIFIER ON;
 GO
 
