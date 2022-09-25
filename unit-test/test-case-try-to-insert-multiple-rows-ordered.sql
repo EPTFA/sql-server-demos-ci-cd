@@ -75,6 +75,9 @@ BEGIN
   IF NOT EXISTS (SELECT _id_ FROM Production.usp_Raiserror_SafetyStockLevel_SpyProcedureLog)
     EXEC tSQLt.Fail
       @Message0 = 'Production.usp_Raiserror_SafetyStockLevel_SpyProcedureLog is empty! usp_Raiserror_SafetyStockLevel has not been called!';
+
+  -- Optimized assert command, to be evaluated 
+  --EXEC tSQLt.AssertEmptyTable @TableName = 'Production.usp_Raiserror_SafetyStockLevel_SpyProcedureLog';
 END;
 GO
 
